@@ -289,7 +289,7 @@ class NovaCanvasFormatter(RequestFormatter):
         
         if operation == Operation.INPAINTING:
             # OPTIMIZED: Focus on texture and blending, strictly forbidding new objects
-            prompt = params.get("prompt", "high resolution texture, seamless surface blend, professional photo retouching, maintain lighting consistency")
+            prompt = params.get("prompt", "true color reproduction, neutral white balance, color consistency across product, enhance the quality")
             req = {
                 "taskType": "INPAINTING", 
                 "inPaintingParams": {
@@ -307,7 +307,7 @@ class NovaCanvasFormatter(RequestFormatter):
         
         if operation == Operation.OUTPAINTING:
             # OPTIMIZED: Ensure the extension matches the studio setting, not the world
-            prompt = params.get("prompt", "professional studio photography background, soft commercial lighting, seamless extension, neutral environment")
+            prompt = params.get("prompt", "true color reproduction, neutral white balance, color consistency across product, enhance the quality")
             return {
                 "taskType": "OUTPAINTING", 
                 "outPaintingParams": {
@@ -328,10 +328,10 @@ class NovaCanvasFormatter(RequestFormatter):
             # CRITICAL OPTIMIZATION:
             if operation == Operation.LIGHTING_FIX:
                 # Prompt focuses purely on "photographic properties", not "content"
-                prompt = params.get("prompt", "professional studio lighting, balanced exposure, neutral white balance, 8k resolution, crisp details, natural dynamic range")
+                prompt = params.get("prompt", "true color reproduction, neutral white balance, color consistency across product, enhance the quality")
                 similarity = params.get("similarity", 0.99) # Increased to 0.99 for lighting only
             else:
-                prompt = params.get("prompt", "super resolution, 4k clarity, sharp focus, defined edges, rich texture, macro photography details")
+                prompt = params.get("prompt", "true color reproduction, neutral white balance, color consistency across product, enhance the quality")
                 similarity = params.get("similarity", 0.96) 
             
             return {
@@ -362,7 +362,7 @@ class StabilityServicesFormatter(RequestFormatter):
             # OPTIMIZED: Lowered creativity to 0.2 and focused prompt on "fidelity"
             return {
                 "image": params["image_base64"], 
-                "prompt": params.get("prompt", "sharp focus, high fidelity, 4k texture, authentic details, no artifacts"), 
+                "prompt": params.get("prompt", "true color reproduction, neutral white balance, color consistency across product, enhance the quality"), 
                 "negative_prompt": ECOMMERCE_NEGATIVE,
                 "creativity": params.get("creativity", 0.20), # Keep this low to prevent hallucination
                 "output_format": "png", 
@@ -373,7 +373,7 @@ class StabilityServicesFormatter(RequestFormatter):
             # Even for "creative", we want to constrain it to the product
             return {
                 "image": params["image_base64"], 
-                "prompt": params.get("prompt", "professional product photography, highly detailed, sharp edges, studio quality"), 
+                "prompt": params.get("prompt", "true color reproduction, neutral white balance, color consistency across product, enhance the quality"), 
                 "creativity": params.get("creativity", 0.25), # Lowered from 0.3
                 "negative_prompt": params.get("negative_prompt", ECOMMERCE_NEGATIVE), 
                 "output_format": "png", 
@@ -400,11 +400,11 @@ class StableDiffusionFormatter(RequestFormatter):
         if operation in [Operation.IMAGE_VARIATION, Operation.LIGHTING_FIX]:
             # OPTIMIZED: Using very precise technical terms
             if operation == Operation.LIGHTING_FIX:
-                prompt = params.get("prompt", "balanced exposure, soft shadows, neutral color grading, professional studio lighting, 8k")
+                prompt = params.get("prompt", "true color reproduction, neutral white balance, color consistency across product, enhance the quality")
                 # Strength represents "how much to change". 0.15 is safe for lighting.
                 strength = params.get("strength", 0.15) 
             else:
-                prompt = params.get("prompt", "sharp focus, unsharp mask, high definition, detailed texture, de-blur")
+                prompt = params.get("prompt", "true color reproduction, neutral white balance, color consistency across product, enhance the quality")
                 strength = params.get("strength", 0.25) 
             
             return {
@@ -439,10 +439,10 @@ class TitanImageFormatter(RequestFormatter):
             
         if operation in [Operation.IMAGE_VARIATION, Operation.LIGHTING_FIX]:
             if operation == Operation.LIGHTING_FIX:
-                prompt = params.get("prompt", "photorealistic, perfectly balanced exposure, studio lighting, color corrected, high dynamic range")
+                prompt = params.get("prompt", "true color reproduction, neutral white balance, color consistency across product, enhance the quality")
                 similarity = params.get("similarity", 0.99) # Extremely high to prevent shape changes
             else:
-                prompt = params.get("prompt", "ultra-sharp, 4k detail, clear texture, noise reduction, focus enhancement")
+                prompt = params.get("prompt", "true color reproduction, neutral white balance, color consistency across product, enhance the quality")
                 similarity = params.get("similarity", 0.96)
             
             return {
